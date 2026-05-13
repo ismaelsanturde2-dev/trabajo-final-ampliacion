@@ -1,11 +1,10 @@
 <?php
 /**
- * Plugin Name: Tarea Larga
- * Description: Este es mi plugin para la tarea.
+ * Plugin Name: Tarea_ampliacion
+ * Description: instalacion del plugin.
  * Version: 1.0
- * Author: Tu Nombre
+ * Author: Ismael
  */
 
-// Aquí debajo va el código que hace funcionar al plugin
-echo "<h1>¡Hola! Este es mi archivo PHP de TareaLarga</h1>";
+echo "<h1>pagina web ismael</h1>";
 ?>
