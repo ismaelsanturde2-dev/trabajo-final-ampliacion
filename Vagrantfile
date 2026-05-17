@@ -37,6 +37,6 @@ config.vm.synced_folder "/home/vboxuser/Desktop/tarea_ampliacion", "/home/vagran
     libvirt.driver = "qemu"
 # Redirige el puerto 8080 de tu PC al puerto 80 de la VM
   config.vm.network "forwarded_port", guest: 80, host: 8080
-
+  libvirt.management_network_device = "eth0"
   end
 end
