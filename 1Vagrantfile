@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Box de Ubuntu 22.04 LTS (Jammy Jellyfish)
+  config.vm.box = "generic/ubuntu2204" 
+
+  # Mapeo de puertos (ejemplo: el puerto 80 del contenedor al 8080 de tu máquina física)
+  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+
+  # Asignación de recursos (VirtualBox)
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048" # 2 GB de RAM
+    vb.cpus = 2        # 2 Núcleos
+  end
+
+  # Aprovisionamiento para instalar Docker y configurar el sistema
+  config.vm.provision "shell", inline: <<-SHELL
+    export DEBIAN_FRONTEND=noninteractive
+
+    echo "==> Actualizando paquetes..."
+    apt-get update -y
+
+    echo "==> Instalando dependencias necesarias..."
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+    echo "==> Descargando e instalando Docker Engine..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+
+    echo "==> Añadiendo el usuario vagrant al grupo docker..."
+    # Esto te permitirá ejecutar comandos docker sin necesidad de usar 'sudo'
+    usermod -aG docker vagrant
+
+    echo "==> Asegurando que el servicio de Docker esté activo..."
+    systemctl enable docker
+    systemctl start docker
+
+    echo "==> Instalación de Docker completada."
+  SHELL
+end
